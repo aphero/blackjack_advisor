@@ -37,19 +37,31 @@ pair = {"2" => {"2" => "H", "3" => "H", "4" => "H", "5" => "H", "6" => "H", "7" 
         "10" => {"2" => "S", "3" => "S", "4" => "S", "5" => "S", "6" => "S", "7" => "H", "8" => "H", "9" => "H", "10" => "H", "A" => "H"},
         "11" => {"2" => "S", "3" => "S", "4" => "S", "5" => "S", "6" => "S", "7" => "H", "8" => "H", "9" => "H", "10" => "H", "A" => "H"}}
 
-puts "Please tell me your first card (Use J, Q, K or A for face cards)"
-card1 = gets.chomp
-puts "How about your second card? (Use J, Q, K or A for face cards)"
-card2 = gets.chomp
-puts "And what's that evil dealer's card? (Use J, Q, K or A for face cards)"
-dealer_card = gets.chomp
+card1 = ''
+card2 = ''
+dealer_card = ''
 
-def validate
-  valid_set = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A]
-  # CHECKS TO ENSURE THAT VALUE ENTERED IS VALID
-  # 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A are valid entries
-  # TAKES CARD VALUE AND RETURNS true OR false
+def validate(card)
+  valid_set = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+  valid_set.include?(card)
 end
+
+until validate(card1)
+  puts "Please tell me your first card (Use J, Q, K or A for face cards)"
+  card1 = gets.chomp
+end
+
+until validate(card2)
+  puts "How about your second card? (Use J, Q, K or A for face cards)"
+  card2 = gets.chomp
+end
+
+until validate(dealer_card)
+  puts "And what's that evil dealer's card? (Use J, Q, K or A for face cards)"
+  dealer_card = gets.chomp
+end
+
+puts card1 + card2 + dealer_card
 
 def convert
   # TAKES CURRENT CARD VALUE AND CONVERTS TO NUMBER VALUE AND RETURNS TO NEW VARIABLE FOR CALCULATIONS.
@@ -68,3 +80,5 @@ end
 def output
   # USES next_move RESULT AND CONVERTS LETTER CODE TO ENGLISH AND PUTS RESULT TO SCREEN.
 end
+
+puts hard[(card1.to_i+card2.to_i).to_s][dealer_card.to_s]
