@@ -43,7 +43,7 @@ dealer_card = ''
 
 def validate(card)
   # VALIDATE USER ENTRY
-  valid_set = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+  valid_set = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
   valid_set.include?(card)
 end
 
@@ -54,8 +54,37 @@ def convert(card)
   elsif card == 'K' || card == 'Q' || card == 'J'
     card = 10
   else
-    card = card
+    card = card.to_i
   end
+end
+
+def hard_soft_pair(card1, card2, dealer, st, hd, pr)
+  if card1 == 11 || card2 == 11
+    return st[(card1.to_i+card2.to_i).to_s][dealer.to_s]
+  elsif card1 == card2
+    return pr[(card1.to_i+card2.to_i).to_s][dealer.to_s]
+  else
+    return hd[(card1.to_i+card2.to_i).to_s][dealer.to_s]
+  end
+  # COMPARES CARD VALUES TO DETERMINE WHICH HASH TO REFERENCE
+  # TAKES card1 AND card2 AND RETURNS hard, soft or pair
+end
+
+def next_move(choice)
+  if choice == 'H'
+    puts "You want to Hit"
+  elsif choice == 'S'
+    puts "You want to Stay"
+  elsif choice == 'Ds'
+    puts "You want to Double if you can or Stay"
+  elsif choice == 'Dh'
+    puts "You want to Double if you can or Hit"
+  else
+    puts "I'm not sure what you should do."
+    system('say "I have failed you my master."')
+  end
+  # TAKES CONVERTED SUM OF card1 AND card2 and RAW dealer_card TO REFERENCE APPROPRIATE HASH AND RETURN VALUE.
+  # IF REFERENCING pair ACE SHOULD BE THE CONVERTED VALUE OF 11
 end
 
 until validate(card1)
@@ -73,31 +102,8 @@ until validate(dealer_card)
   dealer_card = gets.chomp.upcase
 end
 
-def hard_soft_pair(card1, card2)
-  if card1 == 11 || card2 == 11
-    return "soft"
-  elsif card1 == card2
-    return "pair"
-  else
-    return "hard"
-  end
-  # COMPARES CARD VALUES TO DETERMINE WHICH HASH TO REFERENCE
-  # TAKES card1 AND card2 AND RETURNS hard, soft or pair
-end
-
 con_card1 = convert(card1)
 con_card2 = convert(card2)
 con_dealer = convert(dealer_card)
-
-puts hard_soft_pair(con_card1, con_card2)
-puts con_card1.to_s + con_card2.to_s + con_dealer.to_s
-
-
-def next_move
-  # TAKES CONVERTED SUM OF card1 AND card2 and RAW dealer_card TO REFERENCE APPROPRIATE HASH AND RETURN VALUE.
-  # IF REFERENCING pair ACE SHOULD BE THE CONVERTED VALUE OF 11
-end
-
-def output
-  # USES next_move RESULT AND CONVERTS LETTER CODE TO ENGLISH AND PUTS RESULT TO SCREEN.
-end
+hash_choice = hard_soft_pair(con_card1, con_card2, con_dealer, soft, hard, pair)
+next_move(hash_choice)
