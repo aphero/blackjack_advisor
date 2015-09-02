@@ -42,8 +42,20 @@ card2 = ''
 dealer_card = ''
 
 def validate(card)
+  # VALIDATE USER ENTRY
   valid_set = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
   valid_set.include?(card)
+end
+
+def convert(card)
+  # TAKES CURRENT CARD VALUE AND CONVERTS TO NUMBER VALUE AND RETURNS TO NEW VARIABLE FOR CALCULATIONS.
+  if card == 'A'
+    card = 11
+  elsif card == 'K' || card == 'Q' || card == 'J'
+    card = 10
+  else
+    card = card
+  end
 end
 
 until validate(card1)
@@ -61,11 +73,11 @@ until validate(dealer_card)
   dealer_card = gets.chomp
 end
 
-puts card1 + card2 + dealer_card
+con_card1 = convert(card1)
+con_card2 = convert(card2)
+con_dealer = convert(dealer_card)
 
-def convert
-  # TAKES CURRENT CARD VALUE AND CONVERTS TO NUMBER VALUE AND RETURNS TO NEW VARIABLE FOR CALCULATIONS.
-end
+puts con_card1.to_s + con_card2.to_s + con_dealer.to_s
 
 def is_hard_soft_pair
   # COMPARES CARD VALUES TO DETERMINE WHICH HASH TO REFERENCE
@@ -80,5 +92,3 @@ end
 def output
   # USES next_move RESULT AND CONVERTS LETTER CODE TO ENGLISH AND PUTS RESULT TO SCREEN.
 end
-
-puts hard[(card1.to_i+card2.to_i).to_s][dealer_card.to_s]
