@@ -42,13 +42,13 @@ card2 = ''
 dealer_card = ''
 
 def validate(card)
-  # VALIDATE USER ENTRY
+  # VALIDATE USER ENTRY.
   valid_set = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
   valid_set.include?(card)
 end
 
 def convert(card)
-  # TAKES CURRENT CARD VALUE AND CONVERTS TO NUMBER VALUE AND RETURNS TO NEW VARIABLE FOR CALCULATIONS.
+  # TAKES CURRENT CARD VALUE AND CONVERTS TO NUMBER VALUE AND RETURNS TO NEW VARIABLE AS INTEGER FOR CALCULATIONS.
   if card == 'A'
     card = 11
   elsif card == 'K' || card == 'Q' || card == 'J'
@@ -59,6 +59,7 @@ def convert(card)
 end
 
 def hard_soft_pair(card1, card2, dealer, st, hd, pr)
+  # COMPARES CARD VALUES TO DETERMINE WHICH HASH TO REFERENCE AND RETURNS THE VALUE FROM THE HASH.
   if card1 == 11 || card2 == 11
     return st[(card1.to_i+card2.to_i).to_s][dealer.to_s]
   elsif card1 == card2
@@ -66,27 +67,35 @@ def hard_soft_pair(card1, card2, dealer, st, hd, pr)
   else
     return hd[(card1.to_i+card2.to_i).to_s][dealer.to_s]
   end
-  # COMPARES CARD VALUES TO DETERMINE WHICH HASH TO REFERENCE
-  # TAKES card1 AND card2 AND RETURNS hard, soft or pair
 end
 
 def next_move(choice)
+  # TAKES THE HASH VALUE RETURNED FROM hard_soft_pair AND PRINTS THE FINAL EVALUATION FOR THE USER.
   if choice == 'H'
+    puts "==============="
     puts "You want to Hit"
+    puts "==============="
   elsif choice == 'S'
+    puts "================"
     puts "You want to Stay"
+    puts "================"
   elsif choice == 'Ds'
+    puts "====================================="
     puts "You want to Double if you can or Stay"
+    puts "====================================="
   elsif choice == 'Dh'
+    puts "===================================="
     puts "You want to Double if you can or Hit"
+    puts "===================================="
   else
+    puts "================================"
     puts "I'm not sure what you should do."
+    puts "================================"
     system('say "I have failed you my master."')
   end
-  # TAKES CONVERTED SUM OF card1 AND card2 and RAW dealer_card TO REFERENCE APPROPRIATE HASH AND RETURN VALUE.
-  # IF REFERENCING pair ACE SHOULD BE THE CONVERTED VALUE OF 11
 end
 
+# GET INPUT AND SEND FOR VALIDATION.
 until validate(card1)
   puts "Please tell me your first card (Use J, Q, K or A for face cards)"
   card1 = gets.chomp.upcase
@@ -102,6 +111,7 @@ until validate(dealer_card)
   dealer_card = gets.chomp.upcase
 end
 
+# CALLS TO RUN CONVERSIONS, GET HASH VALUE AND REPORT FINAL OUTPUT.
 con_card1 = convert(card1)
 con_card2 = convert(card2)
 con_dealer = convert(dealer_card)
